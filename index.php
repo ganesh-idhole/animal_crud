@@ -1,24 +1,25 @@
 <?php
-include 'config.php';
+include 'config.php';      // Include database configuration file (DB connection)
 
+// Get filter values from URL, if not set default to empty string
 $category = $_GET['category'] ?? '';
 $life_expectancy = $_GET['life_expectancy'] ?? '';
 
-$sql = "SELECT * FROM animalinfo WHERE 1";
-if ($category) $sql .= " AND category='$category'";
-if ($life_expectancy) $sql .= " AND life_expectancy='$life_expectancy'";
-$sql .= " ORDER BY DATE(created_at) DESC, name ASC";
+$sql = "SELECT * FROM animalinfo WHERE 1";                                   // 1 is used to simplify adding AND conditions
+if ($category) $sql .= " AND category='$category'";                          // Filter by category if selected
+if ($life_expectancy) $sql .= " AND life_expectancy='$life_expectancy'";     // Filter by life expectancy if selected
+$sql .= " ORDER BY DATE(created_at) DESC, name ASC";                         // Sort by created date (desc) and name (asc)   => sorted by created date if same day animal list are more than one then it sorted by name 
 
-$result = $conn->query($sql);
+$result = $conn->query($sql);      // Execute query
 
-$file = 'visitors.json';
+$file = 'visitors.json';         // File to store unique visitors => get unique visitor by ip 
 
 // If file exists, read it and count the visitors
 if (file_exists($file)) {
     $visitors = json_decode(file_get_contents($file), true);
     $total_unique = count($visitors);
 } else {
-    $total_unique = 0;
+    $total_unique = 0;               // If file doesn't exist, visitor count is 0
 }
 ?>
 <!DOCTYPE html>

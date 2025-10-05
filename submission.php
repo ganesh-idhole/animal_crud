@@ -1,12 +1,13 @@
 <?php
-include 'config.php';
-session_start();
+include 'config.php';            // Include database configuration (DB connection)
+session_start();                 // Start session to store captcha
 
 // Generate a random captcha number only when form loads (not on submit)
 if (!isset($_POST['submit'])) {
     $_SESSION['captcha'] = rand(1000, 99999);
 }
 
+// If form is submitted
 if (isset($_POST['submit'])) {
     $name = $_POST['name'];
     $category = $_POST['category'];

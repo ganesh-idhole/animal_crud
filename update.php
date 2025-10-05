@@ -1,18 +1,21 @@
 <?php
-include "config.php";
-session_start();
+include "config.php";       // Include database configuration (DB connection)
+session_start();            // Start session to store captcha
 
+// Generate a new captcha if the form is loaded 
 if (!isset($_POST['submit'])) {
     $_SESSION['captcha'] = rand(1000, 99999);
 }
 
-$id = $_GET['id'];
-$sql = "SELECT * from animalinfo where id=?";
-$query = $conn->prepare($sql);
-$query->bind_param("i", $id);
+$id = $_GET['id'];                                 // Get the animal ID from URL
+
+// Prepare SQL to fetch the existing animal record securely
+$sql = "SELECT * from animalinfo where id=?";  
+$query = $conn->prepare($sql);                      
+$query->bind_param("i", $id);       // Bind ID as integer
 $query->execute();
 $result = $query->get_result();
-$row = $result->fetch_assoc();
+$row = $result->fetch_assoc();        // Fetch the animal data
 $query->close();
 
 if (isset($_POST['submit'])) {
