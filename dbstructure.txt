@@ -1,0 +1,12 @@
+Table name => animalinfo 
+
+CREATE TABLE animals (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    category ENUM('herbivores','omnivores','carnivores') NOT NULL,
+    image VARCHAR(255) DEFAULT NULL,
+    description TEXT,
+    life_expectancy ENUM('0-1 year','1-5 years','5-10 years','10+ years'),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
